@@ -11,6 +11,7 @@ const WRITE_CONTROLS = document.getElementById("js-write-controls");
 //Кнопки/инпуты и т.д
 const SEND_BUTTON = document.getElementById("js-send-book");
 const DOWNLOAD_TITLE_INPUT = document.getElementById("js-input-title-download");
+const DONWLOAD_INPUT_FILE = document.getElementById("js-download-input");
 const WRITE_TITLE_INPUT = document.getElementById("js-input-title-write");
 const WRITE_TEXT_INPUT = document.getElementById("js-input-write-text");
 const FAVORITE_DROP_AREA = document.getElementById(
@@ -49,6 +50,7 @@ FAVORITE_DROP_AREA.addEventListener("drop", (e) => {
   currBook.book.isFavorite = true;
   FAVORITE_LIST.unshift(currBook.book);
   BOOKS_LIST.splice(currBook.index, 1);
+  FAVORITE_DROP_AREA.innerHTML = "DROP DOWN AREA";
   setStorageBooks();
   renderDOM();
 });
@@ -59,6 +61,7 @@ BOOKS_DROP_AREA.addEventListener("drop", (e) => {
   currBook.book.isFavorite = false;
   FAVORITE_LIST.splice(currBook.index, 1);
   BOOKS_LIST.unshift(currBook.book);
+  BOOKS_DROP_AREA.innerHTML = "DROP DOWN AREA";
   setStorageBooks();
   renderDOM();
 });
@@ -77,9 +80,9 @@ function changeCheckBox(isDownload) {
     ? WRITE_CONTROLS.classList.remove("g-hidden")
     : WRITE_CONTROLS.classList.add("g-hidden");
 }
-function sendBook() {
+async function sendBook() {
   if (CHECK_BOX_WRITE.checked) {
-    if (WRITE_TEXT_INPUT.value === "" || WRITE_TEXT_INPUT.value === "") return;
+    if (WRITE_TITLE_INPUT.value === "" || WRITE_TEXT_INPUT.value === "") return;
     const BOOK = { title: "", text: "", isReaded: false, isFavorite: false };
     BOOK.title = WRITE_TITLE_INPUT.value;
     BOOK.text = WRITE_TEXT_INPUT.value;
@@ -88,6 +91,28 @@ function sendBook() {
     renderDOM();
     return;
   }
+  if (
+    DOWNLOAD_TITLE_INPUT.value === "" ||
+    DONWLOAD_INPUT_FILE.files.length === 0
+  )
+    return;
+  const BOOK = { title: "", text: "", isReaded: false, isFavorite: false };
+  const FORM_DATA = new FormData();
+  FORM_DATA.append('login', 'user');
+  FORM_DATA.append('file', DONWLOAD_INPUT_FILE.files[DONWLOAD_INPUT_FILE.files.length - 1]);
+  const ANSWER = await fetch(
+    `https://apiinterns.osora.ru/`,
+    {
+      method: "POST",
+      body: FORM_DATA,
+    }
+  );
+  const RESULT = await ANSWER.json();
+  BOOK.title = DOWNLOAD_TITLE_INPUT.value;
+  BOOK.text = RESULT.text;
+  BOOKS_LIST.unshift(BOOK);
+  setStorageBooks();
+  renderDOM();
 }
 function renderDOM() {
   FAVORITE_LIST_WRAPPER.innerHTML = "";
@@ -150,6 +175,9 @@ function createBookElement(book, index, isItFavoriteList) {
   const EDIT_BUTTON = document.createElement("button");
   EDIT_BUTTON.classList.add("b-list-item-button");
   EDIT_BUTTON.innerHTML = "Ред.";
+  EDIT_BUTTON.addEventListener("click", () => {
+    editBook(book);
+  });
   CONTROLS_WRAPPER.appendChild(EDIT_BUTTON);
 
   const READED_BUTTON = document.createElement("button");
@@ -166,13 +194,7 @@ function createBookElement(book, index, isItFavoriteList) {
   READ_BUTTON.classList.add("b-list-item-button");
   READ_BUTTON.innerHTML = "Читать";
   READ_BUTTON.addEventListener("click", () => {
-    CHOOSEN_BOOK_WRAPPER.innerHTML = "";
-    const BOOK_TITLE = document.createElement("label");
-    BOOK_TITLE.innerHTML = book.title;
-    CHOOSEN_BOOK_WRAPPER.appendChild(BOOK_TITLE);
-    const BOOK_TEXT = document.createElement("label");
-    BOOK_TEXT.innerHTML = book.text;
-    CHOOSEN_BOOK_WRAPPER.appendChild(BOOK_TEXT);
+    readBook(book);
   });
   CONTROLS_WRAPPER.appendChild(READ_BUTTON);
 
@@ -211,4 +233,40 @@ function updateBooksArray() {
       FAVORITE_LIST.push(book)
     );
   }
+}
+function readBook(book) {
+  CHOOSEN_BOOK_WRAPPER.innerHTML = "";
+  const BOOK_TITLE = document.createElement("label");
+  BOOK_TITLE.classList.add("book__title");
+  BOOK_TITLE.innerHTML = book.title;
+  CHOOSEN_BOOK_WRAPPER.appendChild(BOOK_TITLE);
+  const BOOK_TEXT = document.createElement("label");
+  BOOK_TEXT.classList.add("book__text");
+  BOOK_TITLE.classList.add("book__text");
+  BOOK_TEXT.innerHTML = book.text;
+  CHOOSEN_BOOK_WRAPPER.appendChild(BOOK_TEXT);
+}
+function editBook(book) {
+  CHOOSEN_BOOK_WRAPPER.innerHTML = "";
+  const INPUT_TITLE = document.createElement("input");
+  INPUT_TITLE.classList.add("book__title-input");
+  INPUT_TITLE.value = book.title;
+  INPUT_TITLE.placeholder = "Введите название книги";
+  CHOOSEN_BOOK_WRAPPER.appendChild(INPUT_TITLE);
+  const INPUT_TEXT = document.createElement("textarea");
+  INPUT_TEXT.classList.add("book__text-input");
+  INPUT_TEXT.value = book.text;
+  INPUT_TEXT.placeholder = "Введите текст книги";
+  CHOOSEN_BOOK_WRAPPER.appendChild(INPUT_TEXT);
+  const BUTTON_SEND = document.createElement("button");
+  BUTTON_SEND.classList.add("book__submit-button");
+  BUTTON_SEND.innerHTML = "Сохранить";
+  BUTTON_SEND.addEventListener("click", () => {
+    book.title = INPUT_TITLE.value;
+    book.text = INPUT_TEXT.value;
+    setStorageBooks();
+    renderDOM();
+    CHOOSEN_BOOK_WRAPPER.innerHTML = "";
+  });
+  CHOOSEN_BOOK_WRAPPER.appendChild(BUTTON_SEND);
 }

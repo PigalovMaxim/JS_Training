@@ -32,7 +32,8 @@
             <div class="controls__inputs" id="js-input-controls">
                 <div class="g-full-width g-flex-column" id="js-download-controls">
                     <input class="g-standart-input" id="js-input-title-download" type="text" placeholder="Название"/>
-                    <input type="file"/>
+                    <input accept=".txt" class="g-hidden" id="js-download-input" type="file"/>
+                    <label class="g-download-label" for="js-download-input">Загрузить файл...</label>
                 </div>
                 <div class="g-full-width g-hidden g-flex-column" id="js-write-controls">
                     <input class="g-standart-input" id="js-input-title-write" type="text" placeholder="Название"/>

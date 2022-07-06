@@ -96,9 +96,6 @@ body {
     margin-right: 20px;
     padding: 15px 100px;
 }
-.book {
-    background-color: rgb(180, 180, 180);
-}
 .controls__add-books {
     width: 100%;
     background-color: white;
@@ -158,4 +155,47 @@ body {
     bottom: 10px;
     right: 10px;
     cursor: pointer;
+}
+.book {
+    background-color: rgb(180, 180, 180);
+    padding: 20px;
+}
+.book__title {
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.book__text {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.book__title-input {
+    width: 100%;
+    height: 40px;
+    background-color: rgb(230, 230, 230);
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+.book__text-input {
+    background-color: rgb(228, 228, 228);
+    padding: 15px;
+    width: 100% !important;
+    height: 500px;
+    resize: none;
+    margin-bottom: 30px;
+}
+.book__submit-button {
+    width: 100%;
+    height: 40px;
+    background-color: rgb(230, 230, 230);
+}
+.g-download-label {
+    padding: 5px 10px;
+    width: fit-content;
+    background-color: rgb(95, 95, 95);
 }
