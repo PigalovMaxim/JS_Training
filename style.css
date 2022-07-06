@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    text-decoration: none;
+    list-style: none;
+    border: none;
+    color: black;
+}
+body {
+    background-color: rgb(235, 235, 235);
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.b-half-page {
+    width: calc(50% - 10px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.b-controls-title {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.b-list-of-books-wrapper {
+    width: 100%;
+    max-height: 240px;
+    background-color: white;
+    padding: 15px;
+}
+.b-list-of-books {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 150px;
+    overflow-y: scroll;
+}
+.b-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 5px;
+}
+.b-list-item:hover {
+    background-color: rgb(185, 185, 185);
+}
+.b-list-title {
+    font-size: 25px;
+    font-weight: 700;
+}
+.b-list-item-controls button:last-child{
+    margin-right: 0;
+}
+.b-list-item-button {
+    margin-right: 10px;
+    padding: 5px 13px;
+    background-color: transparent;
+    border: 2px solid black;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.g-readed {
+    border: 2px solid rgba(0, 0, 0, 0.411);
+    color: rgba(0, 0, 0, 0.411);
+}
+.b-list-button {
+    width: 100%;
+    height: 30px;
+    background-color: rgb(228, 228, 228);
+    font-weight: 500;
+    border: 1px dashed black;
+    font-size: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.controls {
+    margin-right: 20px;
+    padding: 15px 100px;
+}
+.book {
+    background-color: rgb(180, 180, 180);
+}
+.controls__add-books {
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.b-input-label {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+.b-input-label label {
+    margin-left: 10px;
+}
+.controls__inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    position: relative;
+}
+.g-standart-input {
+    width: 50%;
+    height: 30px;
+    background-color: rgb(185, 185, 185);
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.g-standart-textarea {
+    background-color: rgb(185, 185, 185);
+    padding: 10px;
+    width: 50%;
+    height: 100px;
+    resize: none;
+}
+.g-hidden {
+    display: none !important;
+}
+.g-full-width {
+    width: 100%;
+}
+.g-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+.g-standart-button {
+    width: 100px;
+    height: 30px;
+    background-color: rgb(150, 150, 150);
+}
+.g-controls-send-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+}

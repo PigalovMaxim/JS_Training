@@ -5,8 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS Training</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="controls b-half-page">
+        <label class="b-controls-title">Любимые книги</label>
+        <div class="controls__favorite-books b-list-of-books-wrapper">
+            <div class="b-list-of-books" id="js-favorite-books"></div>
+            <button class="b-list-button">DROP DOWN AREA</button>
+        </div>
+        <label class="b-controls-title">Список книг</label>
+        <div class="controls__list-books b-list-of-books-wrapper">
+            <div class="b-list-of-books" id="js-list-books"></div>
+            <button class="b-list-button">DROP DOWN AREA</button>
+        </div>        
+        <label class="b-controls-title">Добавить книгу</label>
+        <div class="controls__add-books">
+            <div class="b-input-label">
+                <input type="checkbox" checked id="js-download-book"/>
+                <label for="js-download-book">Загрузить книгу</label>
+            </div>
+            <div class="b-input-label">
+                <input type="checkbox" id="js-write-book"/>
+                <label for="js-write-book">Написать самому</label>
+            </div>
+            <div class="controls__inputs" id="js-input-controls">
+                <div class="g-full-width g-flex-column" id="js-download-controls">
+                    <input class="g-standart-input" id="js-input-title-download" type="text" placeholder="Название"/>
+                    <input type="file"/>
+                </div>
+                <div class="g-full-width g-hidden g-flex-column" id="js-write-controls">
+                    <input class="g-standart-input" id="js-input-title-write" type="text" placeholder="Название"/>
+                    <textarea class="g-standart-textarea" id="js-input-write-text" placeholder="Текст книги"></textarea>
+                </div>
+                <button class="g-standart-button g-controls-send-button" id="js-send-book">Загрузить книгу</button>
+            </div>
+        </div>
+    </div>
+    <div class="book b-half-page" id="js-book-side">
+
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
