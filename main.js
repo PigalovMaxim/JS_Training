@@ -139,10 +139,38 @@ function renderDOM() {
     const BOOK = createBookElement(book, index, true);
     FAVORITE_LIST_WRAPPER.appendChild(BOOK);
   });
+  BOOKS_LIST_WRAPPER.removeEventListener('click', booksListControls);
+  FAVORITE_LIST_WRAPPER.removeEventListener('click', booksListControls);
+  BOOKS_LIST_WRAPPER.addEventListener('click', booksListControls);
+  FAVORITE_LIST_WRAPPER.addEventListener('click', booksListControls);
+}
+function booksListControls(e) {
+  if(!e.target.classList.contains('b-list-item-button')) return;
+  const bookId = e.target.parentNode.parentNode.getAttribute('bookId');
+  const book = e.target.parentNode.parentNode.classList.contains('js-list-item-favorite') ? FAVORITE_LIST_WRAPPER[bookId] : BOOKS_LIST[bookId];
+  if(e.target.classList.contains('js-list-item-edit-button')) editBook(book);
+  if(e.target.classList.contains('js-list-item-readed-button')) {
+    console.log(book);
+    book.isReaded = !book.isReaded;
+    renderDOM();
+  }
+  if(e.target.classList.contains('js-list-item-read-button')) readBook(book);
+  if(e.target.classList.contains('js-list-item-delete-button')) {
+    if (book.isFavorite) {
+      FAVORITE_LIST.splice(bookId, 1);
+      setStorageBooks();
+      renderDOM();
+      return;
+    }
+    BOOKS_LIST.splice(bookId, 1);
+    setStorageBooks();
+    renderDOM();
+  }
 }
 function createBookElement(book, index, isItFavoriteList) {
   const WRAPPER = document.createElement("div");
   WRAPPER.classList.add("b-list-item");
+  WRAPPER.setAttribute('bookId', index);
   WRAPPER.setAttribute("draggable", true);
   WRAPPER.addEventListener("dragstart", (e) => {
     WRAPPER.style.opacity = 0.4;
@@ -174,44 +202,27 @@ function createBookElement(book, index, isItFavoriteList) {
 
   const EDIT_BUTTON = document.createElement("button");
   EDIT_BUTTON.classList.add("b-list-item-button");
+  EDIT_BUTTON.classList.add("js-list-item-edit-button");
   EDIT_BUTTON.innerHTML = "Ред.";
-  EDIT_BUTTON.addEventListener("click", () => {
-    editBook(book);
-  });
   CONTROLS_WRAPPER.appendChild(EDIT_BUTTON);
 
   const READED_BUTTON = document.createElement("button");
   READED_BUTTON.classList.add("b-list-item-button");
+  READED_BUTTON.classList.add("js-list-item-readed-button");
   READED_BUTTON.innerHTML = book.isReaded ? "Прочитал" : "Прочитана";
   if (book.isReaded) READED_BUTTON.classList.add("g-readed");
-  READED_BUTTON.addEventListener("click", () => {
-    book.isReaded = !book.isReaded;
-    renderDOM();
-  });
   CONTROLS_WRAPPER.appendChild(READED_BUTTON);
 
   const READ_BUTTON = document.createElement("button");
   READ_BUTTON.classList.add("b-list-item-button");
+  READ_BUTTON.classList.add("js-list-item-read-button");
   READ_BUTTON.innerHTML = "Читать";
-  READ_BUTTON.addEventListener("click", () => {
-    readBook(book);
-  });
   CONTROLS_WRAPPER.appendChild(READ_BUTTON);
 
   const DELETE_BUTTON = document.createElement("button");
   DELETE_BUTTON.classList.add("b-list-item-button");
+  DELETE_BUTTON.classList.add("js-list-item-delete-button");
   DELETE_BUTTON.innerHTML = "X";
-  DELETE_BUTTON.addEventListener("click", () => {
-    if (isItFavoriteList) {
-      FAVORITE_LIST.splice(index, 1);
-      setStorageBooks();
-      renderDOM();
-      return;
-    }
-    BOOKS_LIST.splice(index, 1);
-    setStorageBooks();
-    renderDOM();
-  });
   CONTROLS_WRAPPER.appendChild(DELETE_BUTTON);
 
   WRAPPER.appendChild(CONTROLS_WRAPPER);
